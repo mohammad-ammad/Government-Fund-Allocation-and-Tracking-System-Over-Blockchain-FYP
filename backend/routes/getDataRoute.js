@@ -4,6 +4,9 @@ const router = express.Router();
 
 const {getData} = require("../controllers/getDataController");
 
-router.route("/get-data").get(getData);
+//middlewares
+const verifyToken = require("../middleware/ministryAuth");
+
+router.route("/get-data").get(verifyToken,getData);
 
 module.exports = router

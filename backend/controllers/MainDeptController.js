@@ -1,12 +1,12 @@
-const Ministry = require("../models/Ministry");
+const MainDept = require("../models/MainDept");
 const bcrpyt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
-exports.ministrySignup = async(req, res) =>{
+exports.MainDeptSignup = async(req, res) =>{
 
     try {
-        const [result] = await Ministry.findData(req.body.name);
+        const [result] = await MainDept.findData(req.body.email);
         if(result.length != 0)
         {
             res.status(409).json({message: "Email already exist"});
@@ -15,14 +15,17 @@ exports.ministrySignup = async(req, res) =>{
             bcrpyt.hash(req.body.password, saltRounds).then(function(hash) {
                 const user = {
                     name: req.body.name,
+                    email: req.body.email,
+                    office_id: req.body.office_id,
                     password: hash,
-                    meta_id: req.body.meta_mask_id
+                    meta_id: req.body.meta_mask_id,
+                    ministry_id: req.body.ministry_id
                 }
     
-                Ministry.CreateUser(user.name,user.password,user.meta_id).then(result => {
+                MainDept.CreateUser(user.office_id,user.name,user.email,user.password,user.meta_id,user.ministry_id).then(result => {
                     res.status(201).json({message:"User created successfully"})
                 }).catch(error => {
-                    res.status(500).json({message:"Server Error 2"})
+                    res.status(500).json({message:"Server Error"})
                 })
             });
             
@@ -34,9 +37,9 @@ exports.ministrySignup = async(req, res) =>{
     }
     
 }
-exports.ministryLogin = async (req, res) =>{
+exports.mainDeptLogin = async (req, res) =>{
     try {
-        const [result] = await Ministry.findData(req.body.name);
+        const [result] = await MainDept.findData(req.body.email);
         if(result.length != 0)
         {
             let hash = result[0]["password"];
@@ -45,7 +48,7 @@ exports.ministryLogin = async (req, res) =>{
                 jwt.sign({
                     name:result[0]["name"],
                     id:result[0]["id"],
-                },'secret', (err,token) => {
+                },'main_dept', (err,token) => {
                     res.status(201).json({message: "Authorized successful", token: token});
                 })
             })            
@@ -54,32 +57,6 @@ exports.ministryLogin = async (req, res) =>{
             res.status(409).json({message: "unauthorized name"});
         }
     } catch (error) {
-        res.status(500).json({message:"Server error"})
-    }
-}
-
-exports.getAllMinistryData = async (req, res) =>{
-    try
-    {
-        const [result] = await Ministry.fetchAllData();
-        res.status(200).json({result: result})
-    }
-    catch(err)
-    {
-        res.status(500).json({message:"Server error"})
-    }
-}
-
-exports.changeMinistryStatus = async (req, res) =>{
-    try
-    {
-        const type = req.params.type;
-        const id = req.params.id;
-        const [result] = await Ministry.changeStatus(type,id);
-        res.status(200).json({message: "success"})
-    }
-    catch(err)
-    {
         res.status(500).json({message:"Server error"})
     }
 }
