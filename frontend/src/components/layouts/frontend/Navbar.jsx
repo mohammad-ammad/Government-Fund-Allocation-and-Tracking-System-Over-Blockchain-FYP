@@ -2,9 +2,11 @@ import React,{useState} from 'react'
 import {Link} from "react-router-dom";
 import {HiMenuAlt4, HiX} from 'react-icons/hi';
 import {motion} from 'framer-motion';
+import {useSelector} from "react-redux";
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
+    const {isAuthenticated} = useSelector((state)=> state.financeUser);
   return (
     <nav className='navbar__wrapper'>
         <div className='navbar__wrapper-logo'>
@@ -25,8 +27,10 @@ const Navbar = () => {
                         </li>
                         {['about','how to use','benefits','sign-in'].map((item)=>(
                             <li key={`link-${item}`}>
-                                {item == 'sign-in' ?
-                                <Link to={`/${item}`}>{item}</Link>
+                                {item === 'sign-in' ?
+                                <Link to={`/${item}`}>
+                                    {isAuthenticated ? 'dashboard' : item}
+                                </Link>
                                 :
                                 <a href={`#${item}`}>{item}</a>
                             }
