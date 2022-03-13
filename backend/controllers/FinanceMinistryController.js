@@ -75,8 +75,41 @@ exports.login = async (req,res) =>{
             success:true,
             message: "Login successful",
             token:token,
-            data:result[0],
+            user:result[0]
         });
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.Profile = async (req,res) =>{
+    try {
+        const [result] = req.financeUser;
+
+        res.status(201).json({
+            success:true,
+            user:result[0]
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.logout = async (req,res) =>{
+    try {
+
+        res.status(200).cookie("token",null,{expires:new Date(Date.now()),httpOnly:true}).json({
+            success:true,
+            message:"logout"
+        })
 
     } catch (error) {
         res.status(500).json({

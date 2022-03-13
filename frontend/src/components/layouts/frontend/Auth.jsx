@@ -1,9 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Navbar from './Navbar'
 import loginLogo from '../../../assets/login.png';
 import { Link } from 'react-router-dom';
-
+import {useDispatch} from "react-redux";
+import {loginUser} from '../../../Actions/FinanceUser';
 const Auth = () => {
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const loginHandler = (e) => 
+    {
+        e.preventDefault();
+        dispatch(loginUser(name,password));
+    }
   return (
     <>
     <Navbar/>
@@ -22,12 +31,18 @@ const Auth = () => {
                     <div></div>
             </div>
             </div>
-            <form>
+            <form onSubmit={loginHandler}>
                 <div className='auth_input'>
-                    <input type="text"  name="" id="" placeholder='Enter Email'/>
+                    <input type="text"  name="" id="" placeholder='Enter Username'
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
+                     required/>
                 </div>
                 <div className='auth_input'>
-                    <input type="passsword" name="" id="" placeholder='Enter Password'/>
+                    <input type="password" name="" id="" placeholder='Enter Password'
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
+                     required/>
                 </div>
                 <div className='account__label'>
                     Don't have an account? <Link to="/sign-up">Sign Up</Link>
