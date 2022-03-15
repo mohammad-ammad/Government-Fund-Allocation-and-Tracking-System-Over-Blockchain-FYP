@@ -1,7 +1,7 @@
 import React from "react";
 import {Route, Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
-import MasterLayout from "../components/layouts/admin/relativeMinistry/MasterLayout";
+import MasterLayout from "../components/layouts/admin/financeMinistry/MasterLayout";
 function FinanceProtectedRoute({...rest})
 {
     const {isAuthenticated} = useSelector((state)=> state.financeUser);

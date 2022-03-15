@@ -1,6 +1,5 @@
-const { json } = require('express/lib/response');
 const Finance = require('../models/Finance');
-
+const Relevant = require('../models/Relevant');
 exports.register = async (req, res) => {
     try {
         const {name, password} = req.body;
@@ -110,6 +109,63 @@ exports.logout = async (req,res) =>{
             success:true,
             message:"logout"
         })
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.add_relevant_ministry = async (req,res) =>{
+    try {
+        const {code,name, password} = req.body;
+
+        if(!name || !password || !code)
+        {
+            return res.status(400).json({
+                success:false,
+                message: "Please Fill all Fields",
+            });
+        }
+
+        const [result] = await Relevant.FindOne(code);
+
+        if(result.length != 0)
+        {
+            return res.status(401).json({
+                success:false,
+                message: "Ministry Already Exist"
+            });
+        }
+
+        const user = await Relevant.Create(code ,name,password);
+        
+        if(user)
+        {
+            res.status(201).json({
+                success:true,
+                message: "Register successful"
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.get_relevant_ministries = async (req,res) =>{
+    try {
+        const [result] = await Relevant.Find();
+
+        res.status(201).json({
+            success:true,
+            result:result
+        });
 
     } catch (error) {
         res.status(500).json({

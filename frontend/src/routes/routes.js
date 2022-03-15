@@ -1,12 +1,11 @@
-import AddUser from "../components/containers/releventMinistry/AddUser";
-import Dashboard from "../components/containers/releventMinistry/Dashboard";
-import User from "../components/containers/releventMinistry/User";
-import Layout from "../components/layouts/frontend/Layout";
+import AddRelevantMinistry from "../components/containers/financeMinistry/AddRelevantMinistry";
+import Dashboard from "../components/containers/financeMinistry/Dashboard";
+import ReleventMinistry from "../components/containers/financeMinistry/ReleventMinistry";
 
 const routes = [
     {path:'/dashboard', exact:true, name:'Dashboard', component: Dashboard},
-    {path:'/dashboard/user', exact:true, name:'User', component: User},
-    {path:'/dashboard/add-user', exact:true, name:'Add_User', component: AddUser},
+    {path:'/dashboard/relevant-ministry', exact:true, name:'RelevantMinistry', component: ReleventMinistry},
+    {path:'/dashboard/add-relevant-ministry', exact:true, name:'Add_RelevantMinistry', component: AddRelevantMinistry},
 
 ];
 

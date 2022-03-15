@@ -115,8 +115,8 @@ a
 
 .nav_img
 {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 .nav_img > img
 {
@@ -124,6 +124,7 @@ a
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--primary-yellow);
 }
 
 .nav_name
@@ -143,11 +144,32 @@ a
 .nav__dropdown
 {
     position: absolute;
-    top: 50px;
-    height: auto;
+    top: 55px;
+    min-height: 5vh;
     right:0;
     width: 150px;
     background-color: var(--primary-text);
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-top: 2px solid var(--primary-yellow);
+    div 
+    {
+        padding: 0.2vmax 1vmax;
+        a 
+        {
+            color: var(--absolute-text);
+            transition: all 0.3s ease-in-out;
+            span 
+            {
+                margin-right: 1vmax;
+            }
+
+            &:hover{
+                color: var(--primary-yellow);
+                transition: all 0.3s ease-in-out;
+            }
+        }
+    }
 }
 
 .nav__dropdown_hide
@@ -155,10 +177,7 @@ a
     display: none;
 }
 
-.nav__dropdown > ul 
-{
-    list-style: none;
-}
+
 
 .icon_msg
 {
@@ -245,6 +264,17 @@ table {
   .active_btn
   {
       background-color: rgb(4, 196, 4);
+      color: var(--primary-text);
+      outline: none;
+      border: none;
+      padding: 5px 20px;
+      border-radius: 10px;
+      margin: 0 1vmax;
+  }
+
+  .delete_btn
+  {
+      background-color: rgb(196, 33, 4);
       color: var(--primary-text);
       outline: none;
       border: none;

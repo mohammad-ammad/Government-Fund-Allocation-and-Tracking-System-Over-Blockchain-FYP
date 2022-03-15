@@ -42,3 +42,23 @@ export const loadUser = () => async (dispatch) => {
         })
     }
 }
+
+export const logoutUser = () => async (dispatch) => {
+    try {
+        dispatch({
+            type:"logoutRequest"
+        })
+
+        const {data} = await axios.get('/api/v1/finance-logout');
+
+        dispatch({
+            type:"logoutSuccess",
+            payload:data.message
+        })
+    } catch (error) {
+        dispatch({
+            type:"logoutFailure",
+            payload:error
+        })
+    }
+}
