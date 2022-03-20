@@ -22,13 +22,13 @@ const RelevantSidebar = (props) => {
                 </div>
             </div>
         </Link>
-        <Link to='/dashboard/relevant-ministry'>
+        <Link to='/relevant/dashboard/departments'>
             <div className='sideBar_middler_container'>
                 <div className='sideBar_Icon'>
                 <i class='bx bxs-user'></i>
                 </div>
                 <div className='sideBar_Name'>
-                    Relevant Ministry
+                    Departments
                 </div>
             </div>
         </Link>

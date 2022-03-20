@@ -1,25 +1,19 @@
 import React,{useEffect, useState} from 'react'
 import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
-import {editRelevantMinistry, findRelevantMinistry, registerRelevantMinistry} from '../../../Actions/FinanceRelevantMinistry';
+import {useDispatch} from "react-redux";
 import {toast} from 'react-hot-toast';
 import axios from 'axios';
+import { relevantEditDept } from '../../../Actions/RelevantUser';
 
-
-const EditRelevantMinistry = (props) => {
-    
-    const [code, setCode] = useState("");
+const EditDept = (props) => {
     const [name, setName] = useState("");
-    const [editid, setid] = useState(0);
     const dispatch = useDispatch();
     useEffect(()=>{
         const id = props.match.params.id;
-       axios.get(`/api/v1/find-relevant-ministry/${id}`).then(res => {
+       axios.get(`/api/v1/relevant/get-dept/${id}`).then(res => {
            if(res.status == 201)
            {
-               setCode(res.data.editResult.relevant_ministry_id);
-               setName(res.data.editResult.relevant_ministry_name);
-               setid(res.data.editResult.relevant_id)
+               setName(res.data.result.office_name);
            }
        })
     },[]);
@@ -27,11 +21,9 @@ const EditRelevantMinistry = (props) => {
     const UpdateHandler  = async (e) => 
     {
         e.preventDefault();
-        await dispatch(editRelevantMinistry(code,name,editid));
+        await dispatch(relevantEditDept(props.match.params.id,name));
         toast.success('Updated');
-        setCode("");
         setName("");
-        setid(0);
        
     }
   return (
@@ -45,22 +37,10 @@ const EditRelevantMinistry = (props) => {
     <div className='main_content_wrapper'>
         <div className='caption_wrapper'>
             <caption>Edit User</caption>
-            <Link to="/dashboard/relevant-ministry">Back</Link>
+            <Link to="/relevant/dashboard/departments">Back</Link>
         </div>
         <form className='form_wrapper' onSubmit={UpdateHandler}>
-        <div>
-                <input type="hidden" name="" id="" placeholder='Enter Relevant Ministry Code'
-                value={editid}
-                required
-                />
-            </div>
-            <div>
-                <input type="text" name="" id="" placeholder='Enter Relevant Ministry Code'
-                value={code}
-                onChange={(e)=>setCode(e.target.value)}
-                required
-                />
-            </div>
+       
             <div>
                 <input type="text" name=""  id="" placeholder='Enter Username' value={name}
                     onChange={(e)=>setName(e.target.value)}
@@ -76,4 +56,4 @@ const EditRelevantMinistry = (props) => {
   )
 }
 
-export default EditRelevantMinistry
+export default EditDept

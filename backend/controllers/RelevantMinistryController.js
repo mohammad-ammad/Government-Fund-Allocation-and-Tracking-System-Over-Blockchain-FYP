@@ -1,4 +1,5 @@
 const Relevant = require('../models/Relevant');
+const Department = require("../models/Department");
 
 exports.login = async (req,res) =>{
     try {
@@ -69,6 +70,124 @@ exports.logout = async (req,res) =>{
             message:"logout"
         })
 
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.register = async (req, res) => {
+    try {
+        const {id,name,password} = req.body;
+
+        if(id == null || name == null || password == null)
+        {
+            return res.status(400).json({
+                success:false,
+                message: "Please Fill all Fields",
+            });
+        }
+
+        const [result] = await Department.FindById(id);
+
+        if(result.length != 0)
+        {
+            return res.status(401).json({
+                success:false,
+                message: "User already exist"
+            });
+        }
+        
+        const user = await Department.Create(id,name,password,req.releventOwner);
+        
+        if(user)
+        {
+            res.status(201).json({
+                success:true,
+                message: "Register successful"
+            });
+        }
+
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.get_all_departments = async (req,res) =>{
+    try {
+        const [result] = await Department.FindByOwner(req.releventOwner);
+
+        res.status(201).json({
+            success:true,
+            result:result
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.deleteDept = async (req,res) =>{
+    try {
+
+        const [result] = await Department.DeleteOne(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'Department Deleted Successfully',
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.updateDept = async (req,res) =>{
+    try {
+        const {id, name} = req.body;
+        const [result] = await Department.Update(name,id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.findDept = async (req,res) =>{
+    try {
+        const [result] = await Department.FindById(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result[0],
+            });
+        }
     } catch (error) {
         res.status(500).json({
             success:false,
