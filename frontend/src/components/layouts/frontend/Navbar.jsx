@@ -36,6 +36,7 @@ const Navbar = () => {
                             }
                             </li>
                         ))}
+                        <li><Link to="/relevant">Relevent Ministry</Link></li>
                     </ul>
                 </motion.div>
             )}

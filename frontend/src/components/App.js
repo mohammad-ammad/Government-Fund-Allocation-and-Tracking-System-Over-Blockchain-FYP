@@ -8,16 +8,36 @@ import Auth from './layouts/frontend/Auth';
 import {useDispatch, useSelector} from "react-redux";
 import {loadUser} from "../Actions/FinanceUser";
 import FinanceProtectedRoute from '../routes/FinanceProtectedRoute';
-
+import {Toaster} from 'react-hot-toast';
+import RelevantLayout from './layouts/admin/RelevantMinistry/RelevantLayout';
+import RelevantSignIn from './layouts/frontend/ReleventSignIn';
+import RelevantProtectedRoute from '../routes/RelevantProtectedRoute';
+import { relevantloadUser } from '../Actions/RelevantUser';
 function App() {
 
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(loadUser());
+    dispatch(relevantloadUser());
   },[]);
   const {isAuthenticated} = useSelector((state)=> state.financeUser);
+  const {isRelevant} = useSelector((state)=> state.RelevantUser);
   return (
     <div>
+      <div>
+        <Toaster 
+          position='top-right'
+          toastOptions={{
+            success:{
+              theme: {
+                primary:'#4aed88'
+              }
+            }
+          }}
+        >
+
+        </Toaster>
+      </div>
       <Router>
       <Switch>
         <Route path="/" exact>
@@ -29,6 +49,12 @@ function App() {
           }
         </Route>
           <FinanceProtectedRoute name="Dashboard" path="/dashboard" />
+          <Route path="/relevant" exact>
+          {
+            isRelevant ? <Redirect to="/relevant/dashboard"/> :  <RelevantSignIn/>
+          }
+        </Route>
+        <RelevantProtectedRoute name="relevant" path="/relevant/dashboard" />
       </Switch>
       </Router>
       

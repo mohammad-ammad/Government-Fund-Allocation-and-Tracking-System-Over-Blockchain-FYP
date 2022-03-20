@@ -9,19 +9,13 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookiesParser())
 
 // Routes import  
-const register = require('./routes/financeMinistryRoute');
-const login = require('./routes/financeMinistryRoute');
-const Profile = require('./routes/financeMinistryRoute');
-const logout = require('./routes/financeMinistryRoute');
-const add_relevant_ministry = require('./routes/financeMinistryRoute');
-const get_relevant_ministries = require('./routes/financeMinistryRoute');
+const FinanceMinistry = require('./routes/financeMinistryRoute');
+const RelevantMinistry = require('./routes/relevantMinistryRoute');
 
-app.use("/api/v1", register);
-app.use("/api/v1", login);
-app.use("/api/v1", Profile);
-app.use("/api/v1", logout);
-app.use("/api/v1", add_relevant_ministry);
-app.use("/api/v1", get_relevant_ministries);
+
+app.use("/api/v1", FinanceMinistry);
+app.use("/api/v1", RelevantMinistry);
+
 
 
 module.exports = app

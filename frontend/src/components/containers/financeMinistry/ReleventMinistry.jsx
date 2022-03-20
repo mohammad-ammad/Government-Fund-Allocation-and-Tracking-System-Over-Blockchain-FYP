@@ -1,13 +1,22 @@
-import React,{useEffect} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import { loadRelevantMinistry } from '../../../Actions/FinanceRelevantMinistry';
+import { loadRelevantMinistry, deleteRelevantMinistry } from '../../../Actions/FinanceRelevantMinistry';
+import {toast} from 'react-hot-toast';
 const ReleventMinistry = () => {
     const dispatch = useDispatch();
-    const {loading, result} = useSelector((state)=> state.financeRelevantMinistry);
+    const {result} = useSelector((state)=> state.financeRelevantMinistry);
     useEffect(()=>{
         dispatch(loadRelevantMinistry());
-      },[dispatch]);
+      },[]);
+
+    const deleteRelevant = (e,id) => {
+        e.preventDefault();
+        dispatch(deleteRelevantMinistry(id));
+        toast.success('Successfully deleted!')
+        const thisClicked = e.currentTarget;
+        thisClicked.closest("tr").remove();
+    }
   return (
     <>
     <div className='breadCrumb'>
@@ -30,14 +39,14 @@ const ReleventMinistry = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {
+                            { 
                                 result && result.length > 0 ? result.map((item)=>(
                                     <tr key={item.relevant_ministry_id}>
                                     <td data-label="no">{item.relevant_ministry_id}</td>
                                     <td data-label="name">{item.relevant_ministry_name}</td>
                                     <td data-label="action">
-                                        <button className='active_btn'>Edit</button>
-                                        <button className='delete_btn'>Delete</button>
+                                        <Link to={`/dashboard/edit-relevant-ministry/${item.relevant_id}`} className='active_btn'>Edit</Link>
+                                        <button className='delete_btn' onClick={(e)=>deleteRelevant(e,item.relevant_id)}>Delete</button>
                                     </td>
                                     </tr>
                                 )) : 'No data found'

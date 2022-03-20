@@ -1,17 +1,22 @@
 import React,{useState} from 'react'
-import { Link, Redirect } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {registerRelevantMinistry} from '../../../Actions/FinanceRelevantMinistry';
-
+import {toast} from 'react-hot-toast';
 const AddRelevantMinistry = () => {
     const [code, setCode] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+ 
     const dispatch = useDispatch();
-    const RegisterHandler = (e) => 
+    const RegisterHandler  = async (e) => 
     {
         e.preventDefault();
-        dispatch(registerRelevantMinistry(code,name,password));
+        await dispatch(registerRelevantMinistry(code,name,password));
+        toast.success('Successfully!');
+        setCode("");
+        setName("");
+        setPassword("");
     }
   return (
     <>
@@ -41,7 +46,7 @@ const AddRelevantMinistry = () => {
                     />
             </div>
             <div>
-                <input type="text" name="" id="" placeholder='Enter Password'
+                <input type="password" name="" id="" placeholder='Enter Password'
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}
                 required

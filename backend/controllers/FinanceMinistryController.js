@@ -174,3 +174,63 @@ exports.get_relevant_ministries = async (req,res) =>{
         })
     }
 }
+
+exports.deleteRelevantMinistry = async (req,res) =>{
+    try {
+        const {id} = req.body;
+        const [result] = await Relevant.DeleteOne(id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'Relevant Ministry Deleted Successfully',
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.findRelevantMinistry = async (req,res) =>{
+    try {
+        const [result] = await Relevant.FindById(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                editResult:result[0],
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.updateRelevantMinistry = async (req,res) =>{
+    try {
+        const {code,name,id} = req.body;
+        const [result] = await Relevant.Update(code,name,id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}

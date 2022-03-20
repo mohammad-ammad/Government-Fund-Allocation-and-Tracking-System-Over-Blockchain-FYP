@@ -1,11 +1,10 @@
-import React, { useState}  from 'react';
-import SideBar from './sideBar';
-import routes from '../../../../routes/routes';
+import React,{useState} from 'react'
+import '../financeMinistry/app.scss';
+import RelevantHeader from './RelevantHeader';
+import RelevantSidebar from './RelevantSidebar';
+import releventRoutes from '../../../../routes/relevantRoutes';
 import {Switch, Route, Redirect} from "react-router-dom";
-import Header from './Header';
-import './app.scss';
-
-const MasterLayout = () => {
+const RelevantLayout = () => {
     const [isActive, setActive] = useState(true);
     
     const toggleClass = () => {
@@ -14,12 +13,12 @@ const MasterLayout = () => {
 
     return (
         <div className='masterContainer'>
-            <SideBar ActiveClass = {isActive ? 'sideBar_container': 'sideBar_container_hide'}/>
+            <RelevantSidebar ActiveClass = {isActive ? 'sideBar_container': 'sideBar_container_hide'}/>
             <div className='main_wrapper'>
-                <Header toggle={toggleClass}/>
+                <RelevantHeader toggle={toggleClass}/>
                 <div className='main_content'>
                     <Switch>
-                        {routes.map((route,idx)=>{
+                        {releventRoutes.map((route,idx)=>{
                             return(
                                 route.component && (
                                     <Route
@@ -34,12 +33,13 @@ const MasterLayout = () => {
                                 )
                             )
                         })}
-                        <Redirect from="dashboard" to="/dashboard" />
+                        <Redirect from="relevant" to="/relevant/dashboard" />
                     </Switch>
                 </div>
             </div>
         </div>
     );
+
 }
 
-export default MasterLayout;
+export default RelevantLayout
