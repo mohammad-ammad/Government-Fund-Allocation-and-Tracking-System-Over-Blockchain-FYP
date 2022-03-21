@@ -128,3 +128,23 @@ export const relevantEditDept = (id,name) => async (dispatch) => {
         })
     }
 }
+
+export const logoutRelevant = () => async (dispatch) => {
+    try {
+        dispatch({
+            type:"relevantlogoutRequest"
+        })
+
+        const {data} = await axios.get('/api/v1/relevant/logout');
+
+        dispatch({
+            type:"relevantlogoutSuccess",
+            payload:data.message
+        })
+    } catch (error) {
+        dispatch({
+            type:"relevantlogoutFailure",
+            payload:error
+        })
+    }
+}

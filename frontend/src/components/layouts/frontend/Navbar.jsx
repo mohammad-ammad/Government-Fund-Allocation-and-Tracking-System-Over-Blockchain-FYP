@@ -37,6 +37,7 @@ const Navbar = () => {
                             </li>
                         ))}
                         <li><Link to="/relevant">Relevent Ministry</Link></li>
+                        <li><Link to="/department">Departments</Link></li>
                     </ul>
                 </motion.div>
             )}

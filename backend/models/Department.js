@@ -29,4 +29,15 @@ module.exports = class Department{
         return db.execute("UPDATE department_details SET office_name = (?) where office_id = (?)",[name,id]);
     }
 
+    
+    static async matchPassword(hash,pass)
+    {
+        return await bcrpyt.compare(pass,hash);
+    }
+
+    static generateToken(id)
+    {
+        return jwt.sign(id,process.env.JWT_SECRET_DEPT);
+    }
+
 }

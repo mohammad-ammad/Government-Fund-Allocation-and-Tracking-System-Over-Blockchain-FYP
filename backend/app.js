@@ -11,10 +11,12 @@ app.use(cookiesParser())
 // Routes import  
 const FinanceMinistry = require('./routes/financeMinistryRoute');
 const RelevantMinistry = require('./routes/relevantMinistryRoute');
+const Department = require('./routes/departmentRoute');
 
 
 app.use("/api/v1", FinanceMinistry);
 app.use("/api/v1", RelevantMinistry);
+app.use("/api/v1", Department);
 
 
 
