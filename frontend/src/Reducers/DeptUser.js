@@ -46,4 +46,74 @@ export const deptUserReducer = createReducer(initialState,{
         state.error = action.payload;
         state.isDept=false;
     },
+
+    deptaddFundRequest: (state) => {
+        state.loading = true;
+    },
+    deptaddFundSuccess: (state,action) => {
+        state.loading = false;
+        state.message = action.payload;
+        state.isDept=true;
+    },
+    deptaddFundFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isDept=true;
+    },
+
+    deptfetchFundRequest: (state) => {
+        state.loading = true;
+    },
+    deptfetchFundSuccess: (state,action) => {
+        state.loading = false;
+        state.deptFetchFund = action.payload;
+        state.isDept=true;
+    },
+    deptfetchFundFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isDept=true;
+    },
+
+    deptdelFundRequest: (state) => {
+        state.loading = true;
+    },
+    deptdelFundSuccess: (state,action) => {
+        state.loading = false;
+        state.message = action.payload;
+        state.isDept=true;
+    },
+    deptdelFundFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isDept=true;
+    },
+
+    deptdfindOneFundRequest: (state) => {
+        state.loading = true;
+    },
+    deptfindOneFundSuccess: (state,action) => {
+        state.loading = false;
+        state.findOneDeptFund = action.payload;
+        state.isDept=true;
+    },
+    deptfindOneFundFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isDept=true;
+    },
+
+    deptupdateFundRequest: (state) => {
+        state.loading = true;
+    },
+    deptupdateFundSuccess: (state,action) => {
+        state.loading = false;
+        state.message = action.payload;
+        state.isDept=true;
+    },
+    deptupdateFundFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isDept=true;
+    },
 });

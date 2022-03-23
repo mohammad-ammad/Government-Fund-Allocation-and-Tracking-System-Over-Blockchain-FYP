@@ -148,3 +148,23 @@ export const logoutRelevant = () => async (dispatch) => {
         })
     }
 }
+
+export const loadFindFundsRelevant = () => async (dispatch) => {
+    try {
+        dispatch({
+            type:"relevantallFundsRequest"
+        })
+
+        const {data} = await axios.get('/api/v1/relevant/get-funds-request');
+
+        dispatch({
+            type:"relevantallFundsSuccess",
+            payload:data.result
+        })
+    } catch (error) {
+        dispatch({
+            type:"relevantallFundsFailure",
+            payload:error
+        })
+    }
+}

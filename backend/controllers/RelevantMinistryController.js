@@ -1,5 +1,6 @@
 const Relevant = require('../models/Relevant');
 const Department = require("../models/Department");
+const DeptFund = require("../models/DeptFund");
 
 exports.login = async (req,res) =>{
     try {
@@ -186,6 +187,25 @@ exports.findDept = async (req,res) =>{
             res.status(201).json({
                 success:true,
                 result:result[0],
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.findFunds = async (req,res) =>{
+    try {
+        const [result] = await DeptFund.FindByOwner(req.releventOwner);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result,
             });
         }
     } catch (error) {

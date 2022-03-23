@@ -106,4 +106,18 @@ export const relevantDeptReducer = createReducer(initialState,{
         state.error = action.payload;
         state.isRelevant=false;
     },
+
+    relevantallFundsRequest: (state) => {
+        state.loading = true;
+    },
+    relevantallFundsSuccess: (state,action) => {
+        state.loading = false;
+        state.allFunds = action.payload;
+        state.isRelevant=true;
+    },
+    relevantallFundsFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isRelevant=true;
+    },
 })
