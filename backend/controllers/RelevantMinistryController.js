@@ -1,6 +1,7 @@
 const Relevant = require('../models/Relevant');
 const Department = require("../models/Department");
 const DeptFund = require("../models/DeptFund");
+const RelevantFund = require("../models/RelevantFund");
 
 exports.login = async (req,res) =>{
     try {
@@ -208,6 +209,76 @@ exports.findFunds = async (req,res) =>{
                 result:result,
             });
         }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.findFundById = async (req,res) =>{
+    try {
+        const [result] = await DeptFund.FindById(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result[0],
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.updateFundStatus = async (req,res) =>{
+    try {
+        const {id, project_feedback,status_approval} = req.body;
+        const [result] = await DeptFund.UpdateStatus(project_feedback,status_approval,id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.relevantFundReq = async (req, res) => {
+    try {
+        const {funds_amount,project_name,project_description} = req.body;
+
+        if(funds_amount == null || project_name == null || project_description == null)
+        {
+            return res.status(400).json({
+                success:false,
+                message: "Please Fill all Fields",
+            });
+        }
+        
+        const result = await RelevantFund.Create(funds_amount,project_name,project_description,new Date(Date.now()),req.releventOwner);
+        
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message: "Inserted successful"
+            });
+        }
+
+
     } catch (error) {
         res.status(500).json({
             success:false,

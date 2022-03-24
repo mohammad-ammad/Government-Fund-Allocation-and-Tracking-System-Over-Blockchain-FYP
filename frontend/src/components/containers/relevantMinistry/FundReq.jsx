@@ -38,9 +38,9 @@ const FundReq = () => {
                                <td data-label="name">{item.office_name}</td>
                                <td data-label="name">{item.project_name}</td>
                                <td data-label="name">{item.funds_amount}</td>
-                               <td data-label="name">{item.status_approval == 0 ? 'Pending' : item.status_approval == 1 ? 'Processing' : 'Completed'}</td>
+                               <td data-label="name">{item.status_approval === 0 ? 'Pending' : item.status_approval === 1 ? 'Processing' : item.status_approval === 3 ? 'Rejected' : 'Accepted'}</td>
                                <td data-label="action">
-                                   <Link to={`/relevant/dashboard/edit-department/`} className='active_btn'>Edit</Link>
+                                   <Link to={`/relevant/dashboard/fund-status/${item.id}`} className='active_btn'>Status</Link>
                                </td>
                                </tr>
                            )):'no data yet'}

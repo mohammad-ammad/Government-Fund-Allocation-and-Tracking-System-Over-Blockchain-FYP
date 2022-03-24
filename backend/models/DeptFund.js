@@ -32,4 +32,14 @@ module.exports = class DeptFund{
         return db.execute("SELECT department_funds_request_details.*,department_details.office_name FROM department_funds_request_details INNER JOIN department_details ON department_funds_request_details.department_id = department_details.office_id WHERE department_funds_request_details.relevant_ministry_id = (?) order by department_funds_request_details.id desc",[id]);
     }
 
+    static UpdateStatus(project_feedback,status_approval,id)
+    {
+        return db.execute("UPDATE department_funds_request_details SET project_feedback = (?), status_approval = (?) WHERE id = (?)",[project_feedback,status_approval,id]);
+    }
+
+    static FindFeedBack(id)
+    {
+        return db.execute("select project_feedback FROM department_funds_request_details where id = (?)",[id])
+    }
+
 }

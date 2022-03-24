@@ -183,3 +183,22 @@ exports.findFund = async (req,res) =>{
         })
     }
 }
+
+exports.findFeedback = async (req,res) =>{
+    try {
+        const [result] = await DeptFund.FindFeedBack(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result[0],
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}

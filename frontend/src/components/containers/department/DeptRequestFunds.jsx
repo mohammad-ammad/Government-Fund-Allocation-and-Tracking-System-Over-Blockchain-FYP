@@ -38,6 +38,7 @@ const DeptRequestFunds = () => {
                             <th scope="col">Project Title</th>
                             <th scope="col">Fund Amount</th>
                             <th scope="col">Status</th>
+                            <th scope="col">FeedBack</th>
                             <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -49,14 +50,22 @@ const DeptRequestFunds = () => {
                                  <td data-label="no">{index+1}</td>
                                  <td data-label="name">{item.project_name}</td>
                                  <td data-label="amount">{item.funds_amount}</td>
-                                 <td data-label="status">{item.status_approval == 0 ? 'Pending' : item.status_approval == 1 ? 'Processing' : 'Completed'}</td>
+                                 <td data-label="status">{item.status_approval === 0 ? 'Pending' : item.status_approval === 1 ? 'Processing' : item.status_approval === 3 ? 'Rejected' : 'Accepted'}</td>
+                                 <td>
+                                     {
+                                         item.status_approval > 0 ? 
+                                         <Link to={`/department/dashboard/view-project-feedback/${item.id}`} className='active_btn'>FeedBack</Link>
+                                         : 'no feedback yet'
+                                     }
+                                 
+                                 </td>
                                  <td data-label="action">
                                      {
-                                         item.status_approval == 0 ?   <Link to={`/department/dashboard/add-project-request/${item.id}`} className='active_btn'>Edit</Link>
+                                         item.status_approval === 0 ?   <Link to={`/department/dashboard/add-project-request/${item.id}`} className='active_btn'>Edit</Link>
                                          : ''
                                      }
                                      {
-                                         item.status_approval == 0 ?  <button className='delete_btn' onClick={(e)=>deleteFund(e,item.id)}>Delete</button>
+                                         item.status_approval === 0 ?  <button className='delete_btn' onClick={(e)=>deleteFund(e,item.id)}>Delete</button>
                                          : ''
                                      }
                                     

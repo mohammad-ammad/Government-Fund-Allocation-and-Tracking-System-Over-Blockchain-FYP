@@ -168,3 +168,26 @@ export const loadFindFundsRelevant = () => async (dispatch) => {
         })
     }
 }
+
+export const relevantUpdateFundStatus = (project_feedback,status_approval,id) => async (dispatch) => {
+    try {
+        dispatch({
+            type:"relevantupdateFundStatusRequest"
+        })
+        const {data} = await axios.put("/api/v1/relevant/update-funds-request-status",{project_feedback,status_approval,id},{
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+        dispatch({
+            type:"relevantupdateFundStatusSuccess",
+            payload:data.message
+        })
+    } catch (error) {
+        dispatch({
+            type:"relevantupdateFundStatusFailure",
+            payload:error
+        })
+    }
+}

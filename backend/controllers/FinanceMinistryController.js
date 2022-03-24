@@ -1,5 +1,7 @@
 const Finance = require('../models/Finance');
 const Relevant = require('../models/Relevant');
+const RelevantFund = require("../models/RelevantFund");
+
 exports.register = async (req, res) => {
     try {
         const {name, password} = req.body;
@@ -225,6 +227,62 @@ exports.updateRelevantMinistry = async (req,res) =>{
             res.status(201).json({
                 success:true,
                 message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.get_relevant_fund_request = async (req,res) =>{
+    try {
+        const [result] = await RelevantFund.Find();
+
+        res.status(201).json({
+            success:true,
+            result:result
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.relevantFundStatus = async (req,res) =>{
+    try {
+        const {stattus_approval,ministry_approval_details,id} = req.body;
+        const [result] = await RelevantFund.UpdateStatus(stattus_approval,ministry_approval_details,new Date(Date.now()),id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.findOneRelevantFund = async (req,res) =>{
+    try {
+        const [result] = await RelevantFund.FindById(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                editResult:result[0],
             });
         }
     } catch (error) {
