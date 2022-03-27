@@ -286,3 +286,80 @@ exports.relevantFundReq = async (req, res) => {
         })
     }
 }
+
+exports.relevantgetRelevantFund = async (req, res) => {
+    try {
+        const [result] = await RelevantFund.FindByOwner(req.releventOwner);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result,
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.relevantgetOneRelevantFund = async (req, res) => {
+    try {
+        const [result] = await RelevantFund.FindById(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                result:result[0],
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.updateRelevantFund = async (req,res) =>{
+    try {
+        const {id, project_name, project_description,funds_amount} = req.body;
+        const [result] = await RelevantFund.Update(id, project_name, project_description,funds_amount);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:'updated successfull',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+exports.relevantdeleteRelevantFund = async (req, res) => {
+    try {
+        const [result] = await RelevantFund.DeleteOne(req.params.id);
+
+        if(result)
+        {
+            res.status(201).json({
+                success:true,
+                message:"Deleted Successfully",
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}

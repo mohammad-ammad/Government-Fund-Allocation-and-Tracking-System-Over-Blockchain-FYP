@@ -22,4 +22,6 @@ router.route("/relevant-findone-fund/:id").get(findOneRelevantFund);
 
 
 
+
+
 module.exports = router;

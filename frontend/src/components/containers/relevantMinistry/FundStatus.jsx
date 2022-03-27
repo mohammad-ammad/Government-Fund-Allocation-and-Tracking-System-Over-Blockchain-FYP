@@ -57,8 +57,8 @@ const FundStatus = (props) => {
             </div>
             <div>
                 <label htmlFor="">Approval Status</label>
-                <select name="" id="" onChange={(e)=>setStatus(e.target.value)}>
-                    <option value="" selected>Choose Status</option>
+                <select name="" id="" onChange={(e)=>setStatus(e.target.value)} >
+                    <option value="" selected >Choose Status</option>
                     <option value="2">Accept</option>
                     <option value="1">Process</option>
                     <option value="3">Rejected</option>

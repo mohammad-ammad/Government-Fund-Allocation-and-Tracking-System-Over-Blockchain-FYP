@@ -42,6 +42,16 @@ const RelevantSidebar = (props) => {
                 </div>
             </div>
         </Link>
+        <Link to='/relevant/dashboard/finance-funds-request'>
+            <div className='sideBar_middler_container'>
+                <div className='sideBar_Icon'>
+                <i class='bx bxs-user'></i>
+                </div>
+                <div className='sideBar_Name'>
+                    Funds Approval Request
+                </div>
+            </div>
+        </Link>
         <Link to='/dashboard'>
             <div className='sideBar_middler_container'>
                 <div className='sideBar_Icon'>

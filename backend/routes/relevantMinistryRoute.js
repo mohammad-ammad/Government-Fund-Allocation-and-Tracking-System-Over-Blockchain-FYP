@@ -2,7 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
-const {login, Profile, logout, register, get_all_departments, deleteDept, updateDept, findDept, findFunds, findFundById, updateFundStatus, relevantFundReq} = require('../controllers/RelevantMinistryController');
+const {login, Profile, logout, register, get_all_departments, deleteDept, updateDept, findDept, findFunds, findFundById, updateFundStatus, relevantFundReq, relevantgetRelevantFund, relevantgetOneRelevantFund,
+     updateRelevantFund, relevantdeleteRelevantFund} = require('../controllers/RelevantMinistryController');
 const { isAuthenticated } = require("../middleware/RelevantAuth");
 
 router.route("/relevant-login").post(login);
@@ -16,6 +17,10 @@ router.route("/relevant/get-funds-request").get(isAuthenticated,findFunds);
 router.route("/relevant/get-funds-request/:id").get(isAuthenticated,findFundById);
 router.route("/relevant/update-funds-request-status").put(isAuthenticated,updateFundStatus);
 router.route("/relevant/finance-fund-request").post(isAuthenticated,relevantFundReq);
+router.route("/relevant/finance-fund-retrieve").get(isAuthenticated,relevantgetRelevantFund);
+router.route("/relevant/finance-fund-retrieve/:id").get(isAuthenticated,relevantgetOneRelevantFund);
+router.route("/relevant/finance-fund-retrieve").put(isAuthenticated,updateRelevantFund);
+router.route("/relevant/finance-fund-delete/:id").delete(isAuthenticated,relevantdeleteRelevantFund);
 router.route("/relevant/logout").get(logout);
 
 module.exports = router;

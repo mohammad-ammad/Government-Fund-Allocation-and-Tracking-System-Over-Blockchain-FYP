@@ -191,3 +191,46 @@ export const relevantUpdateFundStatus = (project_feedback,status_approval,id) =>
         })
     }
 }
+
+export const loadRelevantFinanceFund = () => async (dispatch) => {
+    try {
+        dispatch({
+            type:"loadrelevantFinanceRequest"
+        })
+
+        const {data} = await axios.get('/api/v1/relevant/finance-fund-retrieve');
+
+        dispatch({
+            type:"loadrelevantFinanceSuccess",
+            payload:data.result
+        })
+    } catch (error) {
+        dispatch({
+            type:"loadrelevantFinanceFailure",
+            payload:error
+        })
+    }
+}
+
+export const relevantupdateFinanceReq = (id, project_name, project_description,funds_amount) => async (dispatch) => {
+    try {
+        dispatch({
+            type:"updaterelevantFinanceRequest"
+        })
+        const {data} = await axios.put("/api/v1/relevant/finance-fund-retrieve",{id, project_name, project_description,funds_amount},{
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+        dispatch({
+            type:"updaterelevantFinanceSuccess",
+            payload:data.message
+        })
+    } catch (error) {
+        dispatch({
+            type:"updaterelevantFinanceFailure",
+            payload:error
+        })
+    }
+}

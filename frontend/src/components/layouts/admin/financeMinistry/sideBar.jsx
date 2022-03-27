@@ -33,6 +33,16 @@ const SideBar = (props) => {
                             </div>
                         </div>
                     </Link>
+                    <Link to='/dashboard/fund-request'>
+                        <div className='sideBar_middler_container'>
+                            <div className='sideBar_Icon'>
+                            <i class='bx bxs-user'></i>
+                            </div>
+                            <div className='sideBar_Name'>
+                                Fund Request
+                            </div>
+                        </div>
+                    </Link>
                     <Link to='/dashboard'>
                         <div className='sideBar_middler_container'>
                             <div className='sideBar_Icon'>

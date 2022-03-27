@@ -186,7 +186,7 @@ exports.findFund = async (req,res) =>{
 
 exports.findFeedback = async (req,res) =>{
     try {
-        const [result] = await DeptFund.FindFeedBack(req.params.id);
+        const [result] = await DeptFund.FindById(req.params.id);
 
         if(result)
         {

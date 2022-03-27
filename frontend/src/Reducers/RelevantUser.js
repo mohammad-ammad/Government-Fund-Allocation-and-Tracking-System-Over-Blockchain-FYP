@@ -135,4 +135,37 @@ export const relevantDeptReducer = createReducer(initialState,{
         state.isRelevant=true;
     },
 
+
+})
+
+export const relevantFinanceReducer = createReducer(initialState,{
+    
+    loadrelevantFinanceRequest: (state) => {
+        state.loading = true;
+    },
+    loadrelevantFinanceSuccess: (state,action) => {
+        state.loading = false;
+        state.relevantFinanceFundRequest = action.payload;
+        state.isRelevant=true;
+    },
+    loadrelevantFinanceFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isRelevant=true;
+    },
+
+    updaterelevantFinanceRequest: (state) => {
+        state.loading = true;
+    },
+    updaterelevantFinanceSuccess: (state,action) => {
+        state.loading = false;
+        state.message = action.payload;
+        state.isRelevant=true;
+    },
+    updaterelevantFinanceFailure: (state,action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isRelevant=true;
+    },
+
 })

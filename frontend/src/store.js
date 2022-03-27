@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {financeRelevantMinistryReducer, financeUserReducer} from "./Reducers/FinanceUser";
-import {relevantUserReducer, relevantDeptReducer} from "./Reducers/RelevantUser";
+import {relevantUserReducer, relevantDeptReducer, relevantFinanceReducer} from "./Reducers/RelevantUser";
 import { deptUserReducer } from "./Reducers/DeptUser";
 
 const store = configureStore({
@@ -10,6 +10,7 @@ const store = configureStore({
         RelevantUser:relevantUserReducer,
         RelevantDept:relevantDeptReducer,
         DeptUser:deptUserReducer,
+        RelevantFinance: relevantFinanceReducer,
     }
 });
 
