@@ -31,7 +31,8 @@ const DeptRequestFunds = () => {
                     <caption>Request Funds</caption>
                     <Link to="/department/dashboard/add-project-request">Add Request</Link>
                     </div>
-                    <table>
+                    <div className="table-wrapper">
+                    <table class="fl-table">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -79,6 +80,7 @@ const DeptRequestFunds = () => {
                             
                         </tbody>
                         </table>
+                    </div>
                     </div>
     </>
   )

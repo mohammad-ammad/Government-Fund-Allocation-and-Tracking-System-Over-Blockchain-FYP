@@ -30,7 +30,8 @@ const Dept = () => {
                     <caption>All Department</caption>
                     <Link to="/relevant/dashboard/add-departments">Add Department</Link>
                     </div>
-                    <table>
+                    <div className="table-wrapper">
+                    <table class="fl-table">
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -53,6 +54,7 @@ const Dept = () => {
                             
                         </tbody>
                         </table>
+                    </div>
                     </div>
     </>
   )

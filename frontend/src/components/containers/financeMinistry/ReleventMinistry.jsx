@@ -30,7 +30,8 @@ const ReleventMinistry = () => {
                     <caption>All Users</caption>
                     <Link to="/dashboard/add-relevant-ministry">Add Users</Link>
                     </div>
-                    <table>
+                    <div className="table-wrapper">
+                    <table class="fl-table">
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -54,6 +55,7 @@ const ReleventMinistry = () => {
                             
                         </tbody>
                         </table>
+                    </div>
                     </div>
     </>
   )

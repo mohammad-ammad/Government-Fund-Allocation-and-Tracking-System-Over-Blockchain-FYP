@@ -65,7 +65,8 @@ const FundRequest = () => {
                     <div className='caption_wrapper'>
                     <caption>All Request</caption>
                     </div>
-                    <table>
+                    <div className="table-wrapper">
+                    <table class="fl-table">
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -98,6 +99,7 @@ const FundRequest = () => {
                             
                         </tbody>
                         </table>
+                    </div>
                     </div>
 
                                       {/* model  */}

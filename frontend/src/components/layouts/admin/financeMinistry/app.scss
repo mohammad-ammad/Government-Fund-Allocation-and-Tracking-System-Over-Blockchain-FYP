@@ -2,6 +2,7 @@
 {
     --primary-blue : #042954;
     --primary-yellow : #ffae01;
+    --primary-yellow-dark : #f8b525;
     --primary-text: #ffffff;
     --secondary-text: #d6d3d3;
     --absolute-text: #666565;
@@ -226,40 +227,7 @@ a
     padding: 10px;
     border-radius: 10px;
 }
-table {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    table-layout: fixed;
-  }
-  
-  .main_content_wrapper >caption {
-    font-size: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
-  
-  table tr {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: .35em;
-  }
-  
-  table th,
-  table td {
-    padding: .625em;
-    text-align: center;
-  }
-  
-  table th {
-    font-size: .85em;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
+
 
   .active_btn
   {
@@ -377,48 +345,222 @@ table {
     background-color: var(--primary-yellow);
     transition: all 0.3s ease-in-out;
   }
-  @media screen and (max-width: 600px) {
-    table {
-      border: 0;
-    }
-  
-    table caption {
-      font-size: 1.3em;
-    }
-    
-    table thead {
-      border: none;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      width: 1px;
-    }
-    
-    table tr {
-      border-bottom: 3px solid #ddd;
-      display: block;
-      margin-bottom: .625em;
-    }
-    
-    table td {
-      border-bottom: 1px solid #ddd;
-      display: block;
-      font-size: .8em;
-      text-align: right;
-    }
-    
-    table td::before {
-      content: attr(data-label);
-      float: left;
-      font-weight: bold;
+
+  .dashboard__wrapper 
+  {
+      width: 100%;
+      height: auto;
+  }
+
+  .dashboard__wrapper > .dashboard__top_container 
+  {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 1.5vmax 1vmax;
+      width: 100%;
+      height: auto;
+      border-radius: 0.5vmax;
+  }
+
+  .dashboard__wrapper > .dashboard__top_container > div:first-child 
+  {
+      font-size: 1.4vmax;
+      font-weight: 500;
+  }
+
+  .dashboard__wrapper > .dashboard__mid_container
+  {
+    background-color: var(--primary-blue);
+    color: var(--primary-yellow);
+    padding: 1.5vmax 1vmax;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5vmax;
+    margin: 1vmax 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dashboard__wrapper > .dashboard__mid_container > div 
+  {
+      font-size: 1.2vmax;
+      font-weight: 500;
       text-transform: uppercase;
+  }
+
+  .dashboard__wrapper > .dashboard__mid_container > div > span 
+  {
+      font-size: 1.1vmax;
+      background-color: #1c3d63ec;
+      border-radius: 0.5vmax;
+      padding: 0.3vmax 1vmax;
+      margin-left: 1vmax;
+  }
+
+  .dashboard__wrapper > .dashboard__bottom_container 
+  {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      grid-gap:1vmax;
+  }
+  .card__wrapper
+  {
+      background-color: var(--primary-yellow);
+      width: 100%;
+      height: 20vh;
+      border-radius: 0.5vmax;
+      padding: 2vmax;
+      color: var(--primary-text);
+      cursor: pointer;
+  }
+  .card__wrapper > div:first-child 
+  {
+      font-size: 1.6vmax;
+      font-weight: 500;
+  }
+  .card__wrapper > div:last-child
+  {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2vmax;
+  }
+
+  .card__wrapper:hover 
+  {
+      transition: all 0.3s ease-in-out;
+      background-color: var(--primary-blue);
+  }
+  @media screen and (max-width: 600px) {
+    .dashboard__wrapper > .dashboard__bottom_container
+    {
+        grid-template-columns: 1fr;
     }
-    
-    table td:last-child {
-      border-bottom: 0;
+    .card__wrapper
+    {height: 10vh;}
+    .dashboard__wrapper > .dashboard__mid_container
+    {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .dashboard__wrapper > .dashboard__mid_container > div 
+    {
+        margin: 1vmax 0;
     }
   }
+
+  /* Table Styles */
+
+.table-wrapper{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: var(--primary-yellow);
+    padding: 1vmax 0;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: var(--primary-yellow-dark);
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .fl-table {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
+        display: block;
+    }
+    .fl-table thead th:last-child{
+        border-bottom: none;
+    }
+    .fl-table thead {
+        float: left;
+    }
+    .fl-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .fl-table td, .fl-table th {
+        padding: 20px .625em .625em .625em;
+        height: 60px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+    .fl-table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .fl-table tbody tr {
+        display: table-cell;
+    }
+    .fl-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .fl-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .fl-table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tbody td {
+        display: block;
+        text-align: center;
+    }
+}
+
   
