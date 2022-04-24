@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >= 0.5.0 < 0.9.0;
 
@@ -6,8 +6,8 @@ contract FinanceFundFactory
 {
     address[] public deployedFundsRequest;
 
-    event fundRequestCreated(string indexed projectName, 
-    string indexed relevantMinistry, uint256 fundAmount, address owner, 
+    event fundRequestCreated(string projectName, 
+    string indexed relevantMinistry, uint256 fundAmount, address indexed owner, 
     address fundRequest, uint indexed timestamp);
 
     function createFinanceFund(string memory _projectName,
@@ -22,6 +22,7 @@ contract FinanceFundFactory
         _fundAmount,msg.sender,address(finance),block.timestamp);
 
     }
+
 }
 
 contract FinanceFund 
@@ -32,7 +33,7 @@ contract FinanceFund
     address payable public owner;
     uint256 public receviedAmount;
 
-    event amountTransfered(address indexed, uint256 indexed fundAmount, uint timeStamp);
+    event amountTransfered(address indexed donar, uint256 indexed fundAmount, uint timeStamp);
 
     constructor(string memory _projectName, string memory _relevantMinistry, uint256 _fundAmount, address _owner)
     {
