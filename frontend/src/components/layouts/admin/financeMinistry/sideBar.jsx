@@ -43,13 +43,13 @@ const SideBar = (props) => {
                             </div>
                         </div>
                     </Link>
-                    <Link to='/dashboard'>
+                    <Link to='/dashboard/transfer-funds'>
                         <div className='sideBar_middler_container'>
                             <div className='sideBar_Icon'>
                             <i class='bx bx-money'></i>
                             </div>
                             <div className='sideBar_Name'>
-                               Transactions
+                               Transfer Funds
                             </div>
                         </div>
                     </Link>

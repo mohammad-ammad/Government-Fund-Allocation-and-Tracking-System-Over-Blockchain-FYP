@@ -1,9 +1,9 @@
 const db = require("../config/database");
 
 module.exports = class RelevantFund{
-    static Create(funds_amount,project_name,project_description,rm_project_receive_date,rid)
+    static Create(funds_amount,project_name,project_description,fund_req_address,rm_project_receive_date,rid)
     {
-        return db.execute("INSERT INTO relevant_ministry_funds_details(funds_amount,project_name,project_description,rm_project_receive_date,relevant_ministry_id) VALUES (?,?,?,?,?)",[funds_amount,project_name,project_description,rm_project_receive_date,rid]);
+        return db.execute("INSERT INTO relevant_ministry_funds_details(funds_amount,project_name,project_description,fund_req_address,rm_project_receive_date,relevant_ministry_id) VALUES (?,?,?,?,?,?)",[funds_amount,project_name,project_description,fund_req_address,rm_project_receive_date,rid]);
     }
 
     static Find()

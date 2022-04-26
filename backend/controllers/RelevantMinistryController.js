@@ -258,9 +258,9 @@ exports.updateFundStatus = async (req,res) =>{
 
 exports.relevantFundReq = async (req, res) => {
     try {
-        const {funds_amount,project_name,project_description} = req.body;
+        const {funds_amount,project_name,project_description,fund_req_address} = req.body;
 
-        if(funds_amount == null || project_name == null || project_description == null)
+        if(funds_amount == null || project_name == null || project_description == null || fund_req_address == null)
         {
             return res.status(400).json({
                 success:false,
@@ -268,7 +268,7 @@ exports.relevantFundReq = async (req, res) => {
             });
         }
         
-        const result = await RelevantFund.Create(funds_amount,project_name,project_description,new Date(Date.now()),req.releventOwner);
+        const result = await RelevantFund.Create(funds_amount,project_name,project_description,fund_req_address,new Date(Date.now()),req.releventOwner);
         
         if(result)
         {

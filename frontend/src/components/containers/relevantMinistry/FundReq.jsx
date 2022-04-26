@@ -4,12 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadFindFundsRelevant } from '../../../Actions/RelevantUser';
 import {toast} from "react-hot-toast";
 import axios  from 'axios';
+import {ethers} from "ethers";
+import FinanceFundFactory from "../../../contracts/FinanceFundFactory.json";
+
 const FundReq = () => {
     const [title, setTitle] = useState(null);
     const [desc, setDesc] = useState(null);
     const [amount, setAmount] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     let dispatch = useDispatch();
     let {allFunds} = useSelector((state)=>state.RelevantDept);
+    let {user} = useSelector((state)=>state.RelevantUser);
     useEffect(()=>{
         dispatch(loadFindFundsRelevant())
     },[])
@@ -33,13 +39,41 @@ const FundReq = () => {
         const funds_amount = amount;
         const project_name = title;
         const project_description = desc;
+        let fund_req_address = null;
 
-        const {data} = await axios.post("/api/v1/relevant/finance-fund-request",{funds_amount,project_name,project_description},{
+        //setting provider for blockchain interaction
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+
+        setLoading(true);
+
+        const contract = new ethers.Contract(
+            "0x3144ce144bE34f5C1B79B36ffC80E41BcF138aBe",
+            FinanceFundFactory.abi,
+            signer
+          );
+
+        const FundAmount = ethers.utils.parseUnits(funds_amount,'ether');
+
+        const FundData = await contract.createFinanceFund(
+            project_name,
+            user.relevant_ministry_id,
+            FundAmount,
+          );
+
+        let resp = await FundData.wait();
+        fund_req_address = resp.to;
+        // console.log(FundData.to);
+
+        // post request for server side 
+        const {data} = await axios.post("/api/v1/relevant/finance-fund-request",{funds_amount,project_name,project_description,fund_req_address},{
             headers:{
                 "Content-Type":"application/json"
             }
         })
 
+        setLoading(false)
         toast.success(data.message);
     }
   return (
@@ -115,7 +149,12 @@ const FundReq = () => {
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" className="btn btn-primary">Send Request</button>
+        {
+            loading ? 
+            <button type="button" className="btn btn-primary">Loading</button>
+            :
+            <button type="submit" className="btn btn-primary">Send Request</button>
+        }
       </div>
       </form>
     </div>

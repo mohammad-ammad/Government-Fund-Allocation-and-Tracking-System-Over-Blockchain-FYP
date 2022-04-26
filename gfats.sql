@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2022 at 12:40 PM
+-- Generation Time: Apr 26, 2022 at 12:23 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.24
 
@@ -71,7 +71,11 @@ INSERT INTO `department_funds_request_details` (`id`, `department_id`, `status_a
 (1, '1z67a', 2, '30,00000', 'Agricultural project', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content', 'xyz', 'very good', '47'),
 (6, '1z67a', 0, '10000', 'checking', 'check', 'deatisl', 'good', '47'),
 (7, '6734', 3, '20000', 'Economics Fund', 'abc', 'xyz', NULL, '47'),
-(9, '1243', 1, '1000', 'testing', 'abc', 'abc', 'let me check', '49');
+(9, '1243', 1, '1000', 'testing', 'abc', 'abc', 'let me check', '49'),
+(10, '1z67a', 0, '0.00001', 'Medical Treatment', 'medical treatment for needy', 'abc', 'abc', '47'),
+(11, '1z67a', 0, '0.00001', 'domestic fund', 'testing', 'abc', 'abc', '47'),
+(12, '1z67a', 0, '0.0001', 'Charity', 'charity', 'abc', 'abc', '47'),
+(13, '1z67a', 0, '0.0001', 'test', 'test', 'abc', 'abc', '47');
 
 -- --------------------------------------------------------
 
@@ -157,6 +161,7 @@ CREATE TABLE `relevant_ministry_funds_details` (
   `funds_amount` varchar(255) NOT NULL,
   `project_name` text NOT NULL,
   `project_description` text NOT NULL,
+  `fund_req_address` varchar(255) DEFAULT NULL,
   `ministry_approval_details` varchar(255) DEFAULT NULL,
   `rm_approval_date` datetime DEFAULT NULL,
   `rm_project_receive_date` varchar(100) DEFAULT NULL
@@ -166,11 +171,14 @@ CREATE TABLE `relevant_ministry_funds_details` (
 -- Dumping data for table `relevant_ministry_funds_details`
 --
 
-INSERT INTO `relevant_ministry_funds_details` (`id`, `relevant_ministry_id`, `stattus_approval`, `funds_amount`, `project_name`, `project_description`, `ministry_approval_details`, `rm_approval_date`, `rm_project_receive_date`) VALUES
-(1, '47', 1, '30000', 'testing123456', 'abc', 'Checking', '2022-03-24 12:00:10', NULL),
-(3, '47', 2, '30,00000', 'Agricultural project', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content', 'abc', '2022-03-27 08:20:34', '2022-03-27 06:43:36.075000'),
-(4, '47', 0, '10000', 'checking', 'check', NULL, NULL, '2022-03-27 06:44:27.455000'),
-(5, '49', 1, '1000', 'testing', 'abc', 'let me check', '2022-03-27 08:24:46', '2022-03-27 08:23:39.672000');
+INSERT INTO `relevant_ministry_funds_details` (`id`, `relevant_ministry_id`, `stattus_approval`, `funds_amount`, `project_name`, `project_description`, `fund_req_address`, `ministry_approval_details`, `rm_approval_date`, `rm_project_receive_date`) VALUES
+(1, '47', 1, '30000', 'testing123456', 'abc', NULL, 'Checking', '2022-03-24 12:00:10', NULL),
+(3, '47', 2, '30,00000', 'Agricultural project', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content', NULL, 'abc', '2022-03-27 08:20:34', '2022-03-27 06:43:36.075000'),
+(4, '47', 0, '10000', 'checking', 'check', NULL, NULL, NULL, '2022-03-27 06:44:27.455000'),
+(5, '49', 1, '1000', 'testing', 'abc', NULL, 'let me check', '2022-03-27 08:24:46', '2022-03-27 08:23:39.672000'),
+(6, '47', 0, '0.00001', 'Medical Treatment', 'medical treatment for needy person. need funds', NULL, NULL, NULL, '2022-04-25 00:37:45.030000'),
+(7, '47', 0, '0.00001', 'domestic fund', 'testing', '0x0682736cAE57c6b7a2b6A425D33d16d92C11E639', NULL, NULL, '2022-04-25 01:07:22.348000'),
+(8, '47', 0, '0.0001', 'charity', 'abc', '0x3144ce144bE34f5C1B79B36ffC80E41BcF138aBe', NULL, NULL, '2022-04-26 00:35:45.991000');
 
 --
 -- Indexes for dumped tables
@@ -214,7 +222,7 @@ ALTER TABLE `relevant_ministry_funds_details`
 -- AUTO_INCREMENT for table `department_funds_request_details`
 --
 ALTER TABLE `department_funds_request_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `finance_ministry`
@@ -232,7 +240,7 @@ ALTER TABLE `relevant_ministry`
 -- AUTO_INCREMENT for table `relevant_ministry_funds_details`
 --
 ALTER TABLE `relevant_ministry_funds_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

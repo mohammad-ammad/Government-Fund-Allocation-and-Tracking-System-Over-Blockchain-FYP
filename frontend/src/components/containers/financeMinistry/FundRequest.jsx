@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 import {Link} from "react-router-dom"
 import {toast} from "react-hot-toast"
 import axios from "axios"
+import {ethers} from "ethers";
+import FinanceFund from "../../../contracts/FinanceFund.json";
+
 const FundRequest = () => {
     const [allRequest, setAllRequest] = useState([]);
     const [title,setTitle] = useState(null);
@@ -9,6 +12,11 @@ const FundRequest = () => {
     const [desc,setDesc] = useState(null);
     const [feed,setFeed] = useState(null);
     const [status,setStatus] = useState(null);
+    const [address,setAddress] = useState(null);
+    const [pName, setPname] = useState(null);
+    const [reqAmount, setReqAmount] = useState(null);
+    const [change, setChange] = useState(false);
+
     const [id,setId] = useState(0);
 
     const loadData = async() => 
@@ -36,6 +44,15 @@ const FundRequest = () => {
         })
     }
 
+    const sendFundModel = (e,name,amount,address) => 
+    {
+        e.preventDefault();
+        setAddress(address);
+        setPname(name);
+        setReqAmount(amount);
+        console.log(amount);
+    }
+
     const ReqHandler = async (e) => 
     {
         e.preventDefault();
@@ -50,6 +67,29 @@ const FundRequest = () => {
 
         toast.success(data.message);
         loadData();
+    }
+
+    const HandleTransferFund = async (e) => 
+    {
+        e.preventDefault();
+        try {
+            setChange(true);
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+
+            const contract = new ethers.Contract("0x3144ce144bE34f5C1B79B36ffC80E41BcF138aBe", FinanceFund.abi, signer);
+            console.log(contract);
+            console.log(address);
+            const transaction = await contract.transferAmount({value: ethers.utils.parseEther(reqAmount)});
+            await transaction.wait();
+
+            setChange(false);
+            console.log(transaction);
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     
@@ -91,6 +131,7 @@ const FundRequest = () => {
                                         </td>
                                         <td>
                                             <a href="javaScript:void" className='btn btn-success' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>openModel(e,item.id)}>Action</a>
+                                            
                                         </td>
                                     </tr>
                                 ))
@@ -144,6 +185,39 @@ const FundRequest = () => {
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" className="btn btn-primary">Send Request</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div className="modal fade" id="amountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">Project Name: {pName}</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form onSubmit={HandleTransferFund}>
+      <div className="modal-body">
+        <div className="row">
+           <div className="col-md-12 p-4">
+                Request Address: {address}
+           </div>
+           <div className="col-md-12">
+                <label>Send Fund ({reqAmount}) ETH</label>
+                <input type="text" className="form-control" value={reqAmount}  onChange={(e)=>setReqAmount(e.target.value)}/>
+           </div>
+        </div>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        {
+            change ? 
+            <button type="button" className="btn btn-primary">Loading</button>
+            : 
+            <button type="submit" className="btn btn-primary">Send Fund</button>
+        }
       </div>
       </form>
     </div>
