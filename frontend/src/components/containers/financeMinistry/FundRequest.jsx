@@ -78,7 +78,7 @@ const FundRequest = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
 
-            const contract = new ethers.Contract("0x3144ce144bE34f5C1B79B36ffC80E41BcF138aBe", FinanceFund.abi, signer);
+            const contract = new ethers.Contract("0xa40ACa2167B88B79D86A6b679334dBB140d5e7Cb", FinanceFund.abi, signer);
             console.log(contract);
             console.log(address);
             const transaction = await contract.transferAmount({value: ethers.utils.parseEther(reqAmount)});

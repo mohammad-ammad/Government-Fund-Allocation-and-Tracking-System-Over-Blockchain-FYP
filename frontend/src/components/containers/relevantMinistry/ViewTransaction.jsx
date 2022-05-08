@@ -1,16 +1,19 @@
-import React, {useState, useEffect} from 'react'
-import FinanceFund from "../../../contracts/FinanceFund.json";
-import FinanceFundFactory from "../../../contracts/FinanceFundFactory.json";
+import React, {useEffect, useState} from 'react'
 import { ethers } from 'ethers';
-import { Link } from 'react-router-dom';
+import FinanceFundFactory from "../../../contracts/FinanceFundFactory.json";
+import FinanceFund from "../../../contracts/FinanceFund.json";
 import Loader from '../../chunks/Loader';
-const TransferFund = () => {
+import {useSelector} from "react-redux";
+
+const ViewTransaction = () => {
     const [allData, setAllData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [address,setAddress] = useState(null);
     const [pName, setPname] = useState(null);
-    const [reqAmount, setReqAmount] = useState(null);
     const [change, setChange] = useState(false);
+    const [donar,setDonar] = useState([]);
+
+    const {relevant_ministry_id} = useSelector((state)=> state.RelevantUser.user);
 
     useEffect(()=>{
         const loadFund = async () => 
@@ -27,7 +30,7 @@ const TransferFund = () => {
 
               setLoading(true);
 
-              const getAllFundReq = contract.filters.fundRequestCreated();
+              const getAllFundReq = contract.filters.fundRequestCreated(null,relevant_ministry_id,null,null,null,null);
 
               console.log(getAllFundReq);
 
@@ -37,50 +40,44 @@ const TransferFund = () => {
         }
 
         loadFund();
-    },[]);
+    },[])
 
-    const sendFundModel = (e,name,amount,address) => 
+    const sendFundModel = async(e,name,address) => 
     {
         e.preventDefault();
-        console.log(name,amount,address);
+        
         setAddress(address);
         setPname(name);
-        setReqAmount(amount)
-    }
 
-    const HandleTransferFund = async (e) => 
-    {
-        e.preventDefault();
-        try {
-            setChange(true);
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-
-            const contract = new ethers.Contract(address, FinanceFund.abi, signer);
-            console.log(contract);
-            console.log(address);
-            const transaction = await contract.transferAmount({value: ethers.utils.parseEther(reqAmount)});
-            await transaction.wait();
-
+        setChange(true);
+            const provider = new ethers.providers.JsonRpcProvider(
+                "https://eth-ropsten.alchemyapi.io/v2/OMkpbeJ45pT_LAt7uKuF8G-qXzv4lKso"
+              );
+            
+              const contract = new ethers.Contract(
+                address,
+                FinanceFund.abi,
+                provider
+              );
+            const Donations = contract.filters.amountTransfered();
+            const AllDonations = await contract.queryFilter(Donations);
+            setDonar(AllDonations);
             setChange(false);
-            console.log(transaction);
-
-        } catch (error) {
-            console.log(error);
-        }
+            console.log(AllDonations);
+        
     }
+
   return (
     <>
     <div className='breadCrumb'>
-                        <h3>Finance Ministry</h3>
+                        <h3>Department</h3>
                         <div>
-                            Home <span> Transfer Funds</span>
+                            Home <span> Department Fund Transfer</span>
                         </div>
                     </div>
                     <div className='main_content_wrapper'>
                     <div className='caption_wrapper'>
-                    <caption>All Projects Request</caption>
+                    <caption>All Project Transfer</caption>
                     </div>
                     <div className="table-wrapper">
                     <table class="fl-table">
@@ -94,7 +91,7 @@ const TransferFund = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading ? <Loader/> : allData.length > 0 ? 
+                        {loading ? <Loader/> : allData.length > 0 ? 
                             allData.map((e,index)=>(
                                 <tr>
                                     <th scope="row">{index+1}</th>
@@ -102,52 +99,53 @@ const TransferFund = () => {
                                     <td>{ethers.utils.formatEther(e.args.fundAmount)} Eth</td>
                                     <td>{new Date(parseInt(e.args.timestamp) * 1000).toLocaleString()}</td>
                                     <td>
-                                    <a href="javaScript:void" className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#amountModal" onClick={(event)=>sendFundModel(event,e.args.projectName,ethers.utils.formatEther(e.args.fundAmount),e.args.fundRequest)}>Transfer Amount</a>
-                                    <Link to={`/dashboard/view-transactions/${e.args.fundRequest}`} className="btn btn-success">View Transaction</Link>
+                                    <a href="javaScript:void" className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#amountModal" onClick={(event)=>sendFundModel(event,e.args.projectName,e.args.fundRequest)}>View Transaction</a>
                                     </td>
                                 </tr>
                             ))
                              : 'no data yet'}
+                            
                         </tbody>
                         </table>
                     </div>
                     </div>
 
-                    {/* model  */}
-                    <div className="modal fade" id="amountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    {/* model  */}
+<div className="modal fade" id="amountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title" id="exampleModalLabel">Project Name: {pName}</h5>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form onSubmit={HandleTransferFund}>
-      <div className="modal-body">
-        <div className="row">
-           <div className="col-md-12 p-4">
-                Request Address: {address}
-           </div>
-           <div className="col-md-12">
-                <label>Send Fund ({reqAmount}) ETH</label>
-                <input type="text" className="form-control" value={reqAmount}  onChange={(e)=>setReqAmount(e.target.value)}/>
-           </div>
-        </div>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        {
-            change ? 
-            <Loader/>
-            : 
-            <button type="submit" className="btn btn-primary">Send Fund</button>
-        }
-      </div>
-      </form>
+      <div className="table-wrapper p-2">
+                    <table class="fl-table">
+                        <thead>
+                            <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Transfer Address</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">TimeStamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {change ? <Loader/> : donar.length > 0 ? donar.map((e,index)=>(
+                               <tr>
+                                   <td>{index+1}</td>
+                                   <td>{e.args.donar}</td>
+                                   <td>{ethers.utils.formatEther(e.args.fundAmount)}</td>
+                                   <td>{new Date(parseInt(e.args.timeStamp) * 1000).toLocaleString()}</td>
+                               </tr>
+                           )):'no transaction found'}
+                        </tbody>
+                        </table>
+                    </div>
     </div>
   </div>
 </div>
+
     </>
   )
 }
 
-export default TransferFund
+export default ViewTransaction

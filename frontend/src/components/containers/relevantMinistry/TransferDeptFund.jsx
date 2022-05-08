@@ -1,17 +1,16 @@
-import React, {useState, useEffect} from 'react'
-import FinanceFund from "../../../contracts/FinanceFund.json";
-import FinanceFundFactory from "../../../contracts/FinanceFundFactory.json";
+import React, {useEffect, useState} from 'react'
 import { ethers } from 'ethers';
-import { Link } from 'react-router-dom';
+import ReleventFundFactory from "../../../contracts/RelevantFundFactory.json";
+import RelevantFund from "../../../contracts/RelevantFund.json";
 import Loader from '../../chunks/Loader';
-const TransferFund = () => {
+import { Link } from 'react-router-dom';
+const TransferDeptFund = () => {
     const [allData, setAllData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [address,setAddress] = useState(null);
     const [pName, setPname] = useState(null);
     const [reqAmount, setReqAmount] = useState(null);
     const [change, setChange] = useState(false);
-
     useEffect(()=>{
         const loadFund = async () => 
         {
@@ -20,8 +19,8 @@ const TransferFund = () => {
               );
     
               const contract = new ethers.Contract(
-                "0xa40ACa2167B88B79D86A6b679334dBB140d5e7Cb",
-                FinanceFundFactory.abi,
+                "0x8133926863fcE82E5088db388954f7b155aEe70c",
+                ReleventFundFactory.abi,
                 provider
               );
 
@@ -48,8 +47,7 @@ const TransferFund = () => {
         setReqAmount(amount)
     }
 
-    const HandleTransferFund = async (e) => 
-    {
+    const HandleTransferFund = async (e) => {
         e.preventDefault();
         try {
             setChange(true);
@@ -57,7 +55,7 @@ const TransferFund = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
 
-            const contract = new ethers.Contract(address, FinanceFund.abi, signer);
+            const contract = new ethers.Contract(address, RelevantFund.abi, signer);
             console.log(contract);
             console.log(address);
             const transaction = await contract.transferAmount({value: ethers.utils.parseEther(reqAmount)});
@@ -73,14 +71,14 @@ const TransferFund = () => {
   return (
     <>
     <div className='breadCrumb'>
-                        <h3>Finance Ministry</h3>
+                        <h3>Relevent Ministry</h3>
                         <div>
-                            Home <span> Transfer Funds</span>
+                            Home <span> Department Fund Transfer</span>
                         </div>
                     </div>
                     <div className='main_content_wrapper'>
                     <div className='caption_wrapper'>
-                    <caption>All Projects Request</caption>
+                    <caption>All Department Transfer</caption>
                     </div>
                     <div className="table-wrapper">
                     <table class="fl-table">
@@ -94,7 +92,7 @@ const TransferFund = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading ? <Loader/> : allData.length > 0 ? 
+                        {loading ? <Loader/> : allData.length > 0 ? 
                             allData.map((e,index)=>(
                                 <tr>
                                     <th scope="row">{index+1}</th>
@@ -103,18 +101,19 @@ const TransferFund = () => {
                                     <td>{new Date(parseInt(e.args.timestamp) * 1000).toLocaleString()}</td>
                                     <td>
                                     <a href="javaScript:void" className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#amountModal" onClick={(event)=>sendFundModel(event,e.args.projectName,ethers.utils.formatEther(e.args.fundAmount),e.args.fundRequest)}>Transfer Amount</a>
-                                    <Link to={`/dashboard/view-transactions/${e.args.fundRequest}`} className="btn btn-success">View Transaction</Link>
+                                    <Link to={`/relevant/dashboard/view-transactions/${e.args.fundRequest}`} className="btn btn-success">View Transaction</Link>
                                     </td>
                                 </tr>
                             ))
                              : 'no data yet'}
+                            
                         </tbody>
                         </table>
                     </div>
                     </div>
 
-                    {/* model  */}
-                    <div className="modal fade" id="amountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    {/* model  */}
+<div className="modal fade" id="amountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
@@ -150,4 +149,4 @@ const TransferFund = () => {
   )
 }
 
-export default TransferFund
+export default TransferDeptFund

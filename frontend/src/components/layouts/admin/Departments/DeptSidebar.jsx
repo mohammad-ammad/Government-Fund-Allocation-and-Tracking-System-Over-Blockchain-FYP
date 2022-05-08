@@ -32,7 +32,7 @@ const DeptSidebar = (props) => {
                 </div>
             </div>
         </Link>
-        <Link to='/dashboard'>
+        <Link to='/department/dashboard/view-transaction'>
             <div className='sideBar_middler_container'>
                 <div className='sideBar_Icon'>
                 <i class='bx bx-money'></i>

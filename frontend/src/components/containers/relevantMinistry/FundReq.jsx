@@ -49,7 +49,7 @@ const FundReq = () => {
         setLoading(true);
 
         const contract = new ethers.Contract(
-            "0x3144ce144bE34f5C1B79B36ffC80E41BcF138aBe",
+            "0xa40ACa2167B88B79D86A6b679334dBB140d5e7Cb",
             FinanceFundFactory.abi,
             signer
           );
@@ -111,6 +111,7 @@ const FundReq = () => {
                                <td data-label="action">
                                    <Link to={`/relevant/dashboard/fund-status/${item.id}`} className='btn btn-success mx-1'>Status</Link>
                                    <a href="javaScript:void(0)" className='btn btn-primary' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>checkModel(e,item.id)}>Request</a>
+                                   <Link to={`/relevant/dashboard/transfer-dept-fund`} className='btn btn-danger mx-1'>Transfer Fund</Link>
                                </td>
                                </tr>
                            )):'no data yet'}

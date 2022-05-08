@@ -4,7 +4,7 @@ const main = async () =>
 {
     const [deployer] = await ethers.getSigners();
     
-    const Funder = await ethers.getContractFactory("FinanceFundFactory");
+    const Funder = await ethers.getContractFactory("ReleventFundFactory");
 
     const funder = await Funder.deploy();
 

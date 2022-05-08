@@ -50,7 +50,7 @@ const DeptRequestFunds = () => {
                                     <tr key={item.id}>
                                  <td data-label="no">{index+1}</td>
                                  <td data-label="name">{item.project_name}</td>
-                                 <td data-label="amount">{item.funds_amount}</td>
+                                 <td data-label="amount">{item.funds_amount} Eth</td>
                                  <td data-label="status">{item.status_approval === 0 ? 'Pending' : item.status_approval === 1 ? 'Processing' : item.status_approval === 3 ? 'Rejected' : 'Accepted'}</td>
                                  <td>
                                      {

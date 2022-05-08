@@ -4,14 +4,18 @@ import {useSelector, useDispatch} from "react-redux";
 import { deptaddFund, deptfindOneFundReq, updateDeptFund } from '../../../Actions/DeptUser';
 import {toast} from "react-hot-toast";
 import axios from "axios";
+import RelevantFundFactory from '../../../contracts/RelevantFundFactory.json';
+import { ethers } from 'ethers';
+
 const AddFundRequest = (props) => {
     const [pname, setPname] = useState("");
     const [pdesc, setPdesc] = useState("");
     const [pamount, setPamount] = useState("");
     const [rdetail, setRdeatil] = useState("");
     const [pfeed, setPfeed] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const {relevant_ministry_id} = useSelector((state)=> state.DeptUser.user);
+    const {relevant_ministry_id, office_id} = useSelector((state)=> state.DeptUser.user);
 
     const dispatch = useDispatch();
 
@@ -38,12 +42,48 @@ const AddFundRequest = (props) => {
         e.preventDefault();
        if(props.match.params.id != undefined)
        {
-           await dispatch(updateDeptFund(pamount,pname,pdesc,rdetail,pfeed,props.match.params.id));
+           dispatch(updateDeptFund(pamount,pname,pdesc,rdetail,pfeed,props.match.params.id));
            toast.success("Request Updated Successfully");
        }
        else 
        {
-            await dispatch(deptaddFund(pamount,pname,pdesc,rdetail,pfeed,relevant_ministry_id));
+            const funds_amount = pamount;
+            const project_name = pname;
+            const project_description = pdesc;
+            let fund_req_address = null;
+           //setting provider for blockchain interaction
+
+           const provider = new ethers.providers.Web3Provider(window.ethereum);
+           const signer = provider.getSigner();
+
+           
+            setLoading(true);
+
+            const contract = new ethers.Contract(
+                "0x8133926863fcE82E5088db388954f7b155aEe70c",
+                RelevantFundFactory.abi,
+                signer
+            );
+
+            const FundAmount = ethers.utils.parseUnits(funds_amount,'ether');
+
+            const FundData = await contract.createFinanceFund(
+                project_name,
+                office_id,
+                FundAmount,
+              );
+
+            let resp = await FundData.wait();
+
+            fund_req_address = resp.to;
+
+            console.log(fund_req_address);
+
+            // post request for server side 
+            dispatch(deptaddFund(pamount,pname,pdesc,rdetail,pfeed,relevant_ministry_id));
+
+            setLoading(false)
+            
             toast.success("Request Send Successfully");
             setPname("");
             setPdesc("");
@@ -102,7 +142,11 @@ const AddFundRequest = (props) => {
                 />
             </div>
             <div>
-                <button type='submit' className='form_btn'>Save</button>
+                {
+                    loading ? <button type='button' className='form_btn'>Loading</button>
+                    : 
+                    <button type='submit' className='form_btn'>Save</button>
+                }
             </div>
         </form>
     </div>

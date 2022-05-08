@@ -2,33 +2,33 @@
 
 pragma solidity >= 0.5.0 < 0.9.0;
 
-contract FinanceFundFactory
+contract ReleventFundFactory
 {
     address[] public deployedFundsRequest;
 
     event fundRequestCreated(string projectName, 
-    string indexed relevantMinistry, uint256 fundAmount, address indexed owner, 
+    string indexed dept, uint256 fundAmount, address indexed owner, 
     address fundRequest, uint indexed timestamp);
 
     function createFinanceFund(string memory _projectName,
-    string memory _relevantMinistry,
+    string memory _dept,
     uint256 _fundAmount) public
     {
-        FinanceFund finance = new FinanceFund(_projectName,_relevantMinistry,_fundAmount, msg.sender);
+        RelevantFund relevant = new RelevantFund(_projectName,_dept,_fundAmount, msg.sender);
 
-        deployedFundsRequest.push(address(finance));
+        deployedFundsRequest.push(address(relevant));
 
-        emit fundRequestCreated(_projectName,_relevantMinistry,
-        _fundAmount,msg.sender,address(finance),block.timestamp);
+        emit fundRequestCreated(_projectName,_dept,
+        _fundAmount,msg.sender,address(relevant),block.timestamp);
 
     }
 
 }
 
-contract FinanceFund 
+contract RelevantFund 
 {
     string public projectName;
-    string public relevantMinistry;
+    string public dept;
     uint256 public fundAmount;
     address payable public owner;
     uint256 public receviedAmount;
@@ -36,10 +36,10 @@ contract FinanceFund
 
     event amountTransfered(address indexed donar, uint status, uint256 indexed fundAmount, uint timeStamp);
 
-    constructor(string memory _projectName, string memory _relevantMinistry, uint256 _fundAmount, address _owner)
+    constructor(string memory _projectName, string memory _dept, uint256 _fundAmount, address _owner)
     {
         projectName = _projectName;
-        relevantMinistry = _relevantMinistry;
+        dept = _dept;
         fundAmount = _fundAmount;
         owner = payable(_owner);
         status = 0;
@@ -49,12 +49,11 @@ contract FinanceFund
     {
         require(fundAmount > receviedAmount, "Project Amount Fullfilled");
         require(status == 0, "Project Status is not pending");
-        
         owner.transfer(msg.value);
         receviedAmount += msg.value;
 
         emit amountTransfered(msg.sender,status,msg.value,block.timestamp);
-    } 
+    }
 
     function RequestStatus(uint _status) public 
     {
